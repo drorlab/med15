@@ -21,7 +21,7 @@ actualR=`date | awk '{print sqrt('$plen'/'$len')*'$radius'}'`
 cluster_flag=""
 
 # Correction for if excluding first and last peptide residue from analysis
-if [ 1 -e 1 ]
+if [ 1 -eq 0 ]
 then
     # First and last reisude of peptide.  We assume peptide comes at end of PDB file.
     first_peptide_res=$((len - plen + 1))
