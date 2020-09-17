@@ -35,21 +35,19 @@ else
     echo "Frag and prepack already done"
 fi
 
-# # Docking.  We use singleton dependency to prevent more than one of these from
-# # running at a time.
-# RES=$(sbatch \
-#     --job-name=FPD-dock-${NAME} \
-#     --error=../slurm/FPD-dock-${NAME}.err \
-#     --output=../slurm/FPD-dock-${NAME}.out \
-#     --dependency=afterok:${FP_ID} \
-#     docking.sbatch \
-#     $RECEPTOR_NAME \
-#     $NAME \
-#     $ROOT_DIR \
-# )
-# DOCK_ID=${RES##* }
-
-DOCK_ID=1
+# Docking.  We use singleton dependency to prevent more than one of these from
+# running at a time.
+RES=$(sbatch \
+    --job-name=FPD-dock-${NAME} \
+    --error=../slurm/FPD-dock-${NAME}.err \
+    --output=../slurm/FPD-dock-${NAME}.out \
+    --dependency=afterok:${FP_ID} \
+    docking.sbatch \
+    $RECEPTOR_NAME \
+    $NAME \
+    $ROOT_DIR \
+)
+DOCK_ID=${RES##* }
 
 echo "Submitted docking under ID $DOCK_ID"
 
