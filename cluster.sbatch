@@ -53,3 +53,7 @@ for file in $SELECTED_DIR/*.pdb
 do
      python asa.py /share/PI/rondror/software/freesasa/bin/freesasa $file
 done
+
+# Contacts
+cd $ROOT_DIR/../../src
+bash contacts.sh $SELECTED_DIR
