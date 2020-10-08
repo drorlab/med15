@@ -25,8 +25,8 @@ output your results to a root directory, which we shall ROOT_DIR.  Finally,
 please record the number of amino acids in your ABD, which we refer to as
 RECEPTOR_LENGTH.
 
-To use for an AD/ABD pair, please ROOT_DIR with a single subdirectory named
-`start_files`.  This directory should contain, at a minimum, two files:
+To use for an AD/ABD pair, please create ROOT_DIR with a single subdirectory
+named `start_files`.  This directory should contain, at a minimum, two files:
 
 1) A fasta file named `${NAME}.fasta` in the standard FASTA format.  Please be
 sure to include a trailing new line at end of second line (windows does not put
