@@ -10,7 +10,7 @@ Adapted and run by Raphael Townshend, in support of Adrian Sanborn's work.
 
 ## Installation
 
-Please make sure you have the Rosetta bin directory (i.e., rosetta/main/source/bin in your PATH).  This was tested with Rosetta 3.12 .
+Please make sure you have the Rosetta bin directory (i.e., `rosetta/main/source/bin`) in your $PATH.  This was tested with Rosetta 3.12 .
 
 ## Usage
 
