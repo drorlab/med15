@@ -28,4 +28,4 @@ Then, from this (the code) directory, run:
 bash flexpepdock.sh $RECEPTOR_NAME $NAME $ROOT_DIR $RECEPTOR_LENGTH
 ```
 
-An example is provided under `example/`.
+An example input is provided under `example/`.
