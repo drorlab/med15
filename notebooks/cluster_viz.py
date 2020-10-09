@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 
+import glob
 import os
 
 import matplotlib.pyplot as plt
@@ -11,50 +12,23 @@ import numpy as np
 import pandas as pd
 
 
-# In[8]:
+# In[23]:
 
 
-#rec = 'ABD1'
-rec = 'ABD1-fixedlen'
-#rec = 'KIX'
-#names = [
-#    'Pdr1AD',
-#    'Gal4',
-#    'Ppr1',
-#    'Pip2',
-#]
+root_dir = '/Users/raphael/Dropbox/med15'
 
-#rec = 'KIX'
-names = [
-    'Ace2_53',
-    'Aro80_888',
-    'Cha4_622',
-    'Crz1_252',
-    'Gln3_63',
-    'Leu3_857',
-    'Oaf1_1032',
-    'Oaf3_846',
-    'Pul4_139',
-    'Put3_926',
-    'Rdr1_525',
-    'Rds1_813',
-    'Rsf2_586',
-    'Rsf2_688',
-    'Sef1_1132',
-    'Stb4_932',
-    'Sum1_1030',
-    'Tda9_456',
-    'Tec1_227',
-    'Tog1_772',
-    'Urc2_739',
-    'War1_930',
-    'YKL222C_669',
-    'YLR278C_1327',
-    'Yrm1_758',
-]
+# rec = 'ABD1'
+# rec = 'ABD1-fixedlen'
+# rec = 'KIX'
+# rec = 'KIX_9mers'
+rec = 'KIX_mutants'
+
+# Get AD names based on subfolders with analysis folder.
+names = [os.path.basename(os.path.dirname(x)) 
+         for x in glob.glob(root_dir + '/' + rec + '/*/analysis')]
 
 
-# In[4]:
+# In[19]:
 
 
 def load_results(rec, name):
@@ -62,13 +36,13 @@ def load_results(rec, name):
     dynamic = False
     
     if dynamic:
-        cluster_path = '../' + rec + '/' + name + '/analysis-dynamic/top500'
-        all_path = '../' + rec + '/' + name + '/analysis-dynamic/all'
-        output_path = '../' + rec + '/' + name + '/viz-dynamic'
+        cluster_path = root_dir + '/' + rec + '/' + name + '/analysis-dynamic/top500'
+        all_path = root_dir + '/' + rec + '/' + name + '/analysis-dynamic/all'
+        output_path = root_dir + '/' + rec + '/' + name + '/viz-dynamic'
     else:
-        cluster_path = '../' + rec + '/' + name + '/analysis/top500'
-        all_path = '../' + rec + '/' + name + '/analysis/all'
-        output_path = '../' + rec + '/' + name + '/viz'
+        cluster_path = root_dir + '/' + rec + '/' + name + '/analysis/top500'
+        all_path = root_dir + '/' + rec + '/' + name + '/analysis/all'
+        output_path = root_dir + '/' + rec + '/' + name + '/viz'
     if not os.path.exists(output_path):
         os.makedirs(output_path)
     print('loading ' + cluster_path)
@@ -77,7 +51,7 @@ def load_results(rec, name):
     return output_path, cluster_results, all_results
 
 
-# In[5]:
+# In[20]:
 
 
 def cluster_fig(cluster_results, name, output_path):
@@ -102,7 +76,7 @@ def cluster_fig(cluster_results, name, output_path):
         plt.savefig(output_path + '/cluster_viz_{:}.png'.format(name), dpi=300)
 
 
-# In[6]:
+# In[21]:
 
 
 def all_fig(all_results, name, output_path):
@@ -116,7 +90,7 @@ def all_fig(all_results, name, output_path):
         plt.savefig(output_path + '/all_viz_{:}.png'.format(name), dpi=300)
 
 
-# In[ ]:
+# In[24]:
 
 
 for name in names:
