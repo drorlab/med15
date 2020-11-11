@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [ $# -ne 4 ]
+if [ $# -ne 4 ] && [ $# -ne 5 ]
 then
-    echo "Usage: bash flexpepdock.sh RECEPTOR_NAME NAME ROOT_DIR RECEPTOR_LENGTH"
+    echo "Usage: bash flexpepdock.sh RECEPTOR_NAME NAME ROOT_DIR RECEPTOR_LENGTH [ALL|CLUSTER_ONLY]"
     exit
 fi
 
@@ -10,6 +10,7 @@ RECEPTOR_NAME=$1
 NAME=$2
 ROOT_DIR=$3
 RECEPTOR_LENGTH=$4
+MODE=$5
 
 echo "Receptor name: $1"
 echo "Peptide name: $2"
@@ -35,21 +36,26 @@ else
     echo "Frag and prepack already done"
 fi
 
-# Docking.  We use singleton dependency to prevent more than one of these from
-# running at a time.
-RES=$(sbatch \
-    --job-name=FPD-dock-${NAME} \
-    --error=../slurm/FPD-dock-${NAME}.err \
-    --output=../slurm/FPD-dock-${NAME}.out \
-    --dependency=afterok:${FP_ID} \
-    docking.sbatch \
-    $RECEPTOR_NAME \
-    $NAME \
-    $ROOT_DIR \
-)
-DOCK_ID=${RES##* }
-
-echo "Submitted docking under ID $DOCK_ID"
+if [ "$MODE" == "ALL" ] || [ "$MODE" == "" ]
+then
+    # Docking.  We use singleton dependency to prevent more than one of these from
+    # running at a time.
+    RES=$(sbatch \
+        --job-name=FPD-dock-${NAME} \
+        --error=../slurm/FPD-dock-${NAME}.err \
+        --output=../slurm/FPD-dock-${NAME}.out \
+        --dependency=afterok:${FP_ID} \
+        docking.sbatch \
+        $RECEPTOR_NAME \
+        $NAME \
+        $ROOT_DIR \
+    )
+    DOCK_ID=${RES##* }
+    echo "Submitted docking under ID $DOCK_ID"
+else
+    DOCK_ID=1
+    echo "Skipping docking"
+fi
 
 RES=$(sbatch \
     --job-name=FPD-cluster-${NAME} \
