@@ -3,6 +3,7 @@
 #SBATCH --mail-type=FAIL
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
+#SBATCH --mem=20G
 #SBATCH --ntasks=1
 #SBATCH --time=12:00:00
 
