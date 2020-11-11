@@ -5,7 +5,7 @@
 #SBATCH --partition=owners
 #SBATCH --cpus-per-task=1
 ##SBATCH --ntasks-per-node=10
-#SBATCH --ntasks=100
+#SBATCH --ntasks=200
 #SBATCH --output=flexpepdock.out
 #SBATCH --error=flexpepdock.err
 
@@ -30,5 +30,5 @@ mpirun FlexPepDocking.mpi.linuxgccrelease \
     -frag3 ../fragments/frags.3mers.offset \
     -flexPepDocking:frag5 ../fragments/frags.5mers.offset \
     -frag9 ../fragments/frags.9mers.offset \
-    -nstruct 50000 \
+    -nstruct 500000 \
     -unboundrot ../start_files/${RECEPTOR_NAME}.pdb
