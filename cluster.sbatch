@@ -11,10 +11,10 @@ RECEPTOR_NAME=$1
 NAME=$2
 ROOT_DIR=$3
 
-CLUSTER_DIR=$ROOT_DIR/cluster
-RMSD_DIR=$ROOT_DIR/rmsd
-ANALYSIS_DIR=$ROOT_DIR/analysis
-SELECTED_DIR=$ROOT_DIR/selected
+CLUSTER_DIR=$ROOT_DIR/cluster_5000
+RMSD_DIR=$ROOT_DIR/rmsd_5000
+ANALYSIS_DIR=$ROOT_DIR/analysis_5000
+SELECTED_DIR=$ROOT_DIR/selected_5000
 
 module load python/2.7.13
 
@@ -25,7 +25,7 @@ cat decoys.silent | grep SCORE > decoys.sc
 # Cluster
 mkdir -p $CLUSTER_DIR
 cd $CLUSTER_DIR
-bash ../../../src/cluster.sh ${RECEPTOR_NAME}_${NAME}_prepack 500 2 ../docking/decoys.sc ../prepack/${RECEPTOR_NAME}_${NAME}_prepack.pdb ../docking/decoys.silent reweighted_sc
+bash ../../../src/cluster.sh ${RECEPTOR_NAME}_${NAME}_prepack 5000 2 ../docking/decoys.sc ../prepack/${RECEPTOR_NAME}_${NAME}_prepack.pdb ../docking/decoys.silent reweighted_sc
 
 # Extract representative PDBs
 mkdir -p $SELECTED_DIR
@@ -55,6 +55,6 @@ tail -n +2 score.sc | tr -s ' '  |  awk '{print $58, $4 }' | sed 's/_0001 / /g' 
 # Analysis
 mkdir -p $ANALYSIS_DIR
 cd $ANALYSIS_DIR
-join -1 1 -2 1 --header $RMSD_DIR/rmsds <(head -n 1 $CLUSTER_DIR/cluster_members && tail -n +2 $CLUSTER_DIR/cluster_members | sort -k 1) > top500
+join -1 1 -2 1 --header $RMSD_DIR/rmsds <(head -n 1 $CLUSTER_DIR/cluster_members && tail -n +2 $CLUSTER_DIR/cluster_members | sort -k 1) > top5000
 echo "description rms reweighted_sc" > all
 join -1 1 -2 1 <(tail -n +2 $RMSD_DIR/rmsds) $CLUSTER_DIR/tmp.listB >> all
