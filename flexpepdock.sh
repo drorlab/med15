@@ -58,9 +58,9 @@ else
 fi
 
 RES=$(sbatch \
-    --job-name=FPD-cluster-${NAME} \
-    --error=../slurm/FPD-cluster-${NAME}.err \
-    --output=../slurm/FPD-cluster-${NAME}.out \
+    --job-name=FPD-cluster-${NAME}-5000 \
+    --error=../slurm/FPD-cluster-${NAME}-5000.err \
+    --output=../slurm/FPD-cluster-${NAME}-5000.out \
     --dependency=afterok:$DOCK_ID \
     cluster.sbatch \
     $RECEPTOR_NAME \
