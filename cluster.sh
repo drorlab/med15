@@ -42,7 +42,7 @@ topW5=$(($top + 5))
   
 #join by score
 tail -n $topW5 clog | head -$top | awk '{print $3, $4, $5 }' | sort -nk2 | sort > tmp.listA
-cat $score | tail -n +2 | awk -vfield1=$desc_col -vfield2=$score_col '{print $field1, $field2}' | sort > tmp.listB
+cat $score | tail -n +2 | awk -vfield1=$desc_col -vfield2=$score_col '{print $field1, $field2}' | sort -k 1b,1 > tmp.listB
 echo "description cluster cluster_idx reweighted_sc" > clusters
 join -1 1 -2 1 tmp.listA tmp.listB | sort -nk2 -k 4 | awk 'BEGIN{cur=0}{if(cur==$2){print; cur++;}}' | sort -nk 4 >> clusters
 echo "description cluster cluster_idx reweighted_sc" > cluster_members
