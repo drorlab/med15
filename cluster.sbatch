@@ -32,6 +32,19 @@ mkdir -p $SELECTED_DIR
 cd $SELECTED_DIR
 extract_pdbs.linuxgccrelease -in::file::silent $ROOT_DIR/docking/decoys.silent -tags `cat $CLUSTER_DIR/clusters  | tail -n+2 | head -n 10 | tr -s ' ' | cut -d ' ' -f 1` -out::prefix ./
 
+source ~/.med15
+
+# ASA
+cd $ROOT_DIR/../../src
+for file in $SELECTED_DIR/*.pdb
+do
+     python asa.py /share/PI/rondror/software/freesasa/bin/freesasa $file
+done
+
+# Contacts
+cd $ROOT_DIR/../../src
+bash contacts.sh $SELECTED_DIR
+
 # RMSD
 mkdir -p $RMSD_DIR
 cd $RMSD_DIR
@@ -45,16 +58,3 @@ cd $ANALYSIS_DIR
 join -1 1 -2 1 --header $RMSD_DIR/rmsds <(head -n 1 $CLUSTER_DIR/cluster_members && tail -n +2 $CLUSTER_DIR/cluster_members | sort -k 1) > top500
 echo "description rms reweighted_sc" > all
 join -1 1 -2 1 <(tail -n +2 $RMSD_DIR/rmsds) $CLUSTER_DIR/tmp.listB >> all
-
-source ~/.med15
-
-# ASA
-cd $ROOT_DIR/../../src
-for file in $SELECTED_DIR/*.pdb
-do
-     python asa.py /share/PI/rondror/software/freesasa/bin/freesasa $file
-done
-
-# Contacts
-cd $ROOT_DIR/../../src
-bash contacts.sh $SELECTED_DIR
