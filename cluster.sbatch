@@ -5,7 +5,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=20G
 #SBATCH --ntasks=1
-#SBATCH --time=12:00:00
+#SBATCH --time=72:00:00
 
 RECEPTOR_NAME=$1
 NAME=$2
