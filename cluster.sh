@@ -40,11 +40,15 @@ cluster.linuxgccrelease -in:file:silent $decoys -in:file:silent_struct_type bina
 
 topW5=$(($top + 5))
   
-#join by score
-tail -n $topW5 clog | head -$top | awk '{print $3, $4, $5 }' | sort -nk2 | sort > tmp.listA
+#join by score.  New code finds last "Clusters:" output in clog, and then extracts clusters after that
+tac clog |  sed '/Clusters: /q'  | tac | sed -e '1,3d' | head -n -5 | awk '{print $3, $4, $5 }' | sort -nk2 | sort -k 1b,1 > tmp.listA
+# Join by score.  Old code just assumed we have exactly $top entries after last "Clusters:" output in clog, which does not always seem to be the case.
+# tail -n $topW5 clog | head -$top | awk '{print $3, $4, $5 }' | sort -nk2 | sort > tmp.listA
 cat $score | tail -n +2 | awk -vfield1=$desc_col -vfield2=$score_col '{print $field1, $field2}' | sort -k 1b,1 > tmp.listB
+# Keep only best member of each cluster.
 echo "description cluster cluster_idx reweighted_sc" > clusters
 join -1 1 -2 1 tmp.listA tmp.listB | sort -nk2 -k 4 | awk 'BEGIN{cur=0}{if(cur==$2){print; cur++;}}' | sort -nk 4 >> clusters
+# All members of each cluster.
 echo "description cluster cluster_idx reweighted_sc" > cluster_members
 join -1 1 -2 1 tmp.listA tmp.listB | sort -nk4 >> cluster_members
 
